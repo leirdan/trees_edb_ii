@@ -32,7 +32,7 @@ private:
     }
 
     // Helper function to perform a right rotation on a subtree if not balanced in the left
-    AVLnode* leftRotation(AVLnode* node) {
+    AVLnode* rightRotation(AVLnode* node) {
         AVLnode* new_node = node->left;
         node->left = new_node->right;
         new_node->right = node;
@@ -68,6 +68,38 @@ private:
         return root;
     }
 
+    AVLnode* insert(AVLnode* root, int key) {
+        if (root == nullptr) {
+            AVLnode* new_node = new AVLnode(key);
+            new_node->key = key;
+            new_node->left = new_node->right = nullptr;
+        }
+
+        if (key < root->key) {
+            root->left = insert(root->left, key);
+        } else if (key > root->key) {
+            root->right = insert(root->right, key);
+        } else {
+            return root;
+        }
+
+        root->height = 1 + std::max(getHeight(root->left), getHeight(root->right));
+        
+        int balance = getBalance(root);
+
+        if (balance > 1 && key < root->left->key) {
+            return rightRotation(root);
+        } else if (balance > 1 && key > root->left->key) {
+            root->left = leftRotation(root->left);
+            return rightRotation(root);
+        } else if (balance < -1 && key > root->right->key) {
+            return leftRotation(root);
+        } else if (balance < -1 && key < root->right->key) {
+            root->right = rightRotation(root);
+            return leftRotation(root);
+        }
+    }
+
 
 public:
 
@@ -79,6 +111,10 @@ public:
 
     AVLnode* searchIterative(int key) {
         return searchIterative(root, key);
+    }
+
+    AVLnode* insert(int key) {
+        return insert(root, key);
     }
 
 };
