@@ -43,9 +43,42 @@ private:
         return new_node;
     }
 
-    
+    // Recursive helper function to find the key in a node 
+    AVLnode* searchRecursive(AVLnode* root, int key) {
+        if (root == nullptr || root->key == key) {
+            return root;
+        }
+        if (key < root->key) {
+            return searchRecursive(root->left, key);
+        }
+        if (key > root->key) {
+            return searchRecursive(root->right, key);
+        }
+    }
+
+    // Iterative helper function to find the key in a root
+    AVLnode* searchIterative(AVLnode* root, int key) {
+        while (root != nullptr && root->key != key) {
+            if (key < root->key) {
+                root = root->left;
+            } else {
+                root = root->right;
+            }
+        }
+        return root;
+    }
 
 
 public:
+
+    AVLTree() : root(nullptr) {}
+
+    AVLnode* searchRecursive(int key) {
+        return searchRecursive(root, key);
+    }
+
+    AVLnode* searchIterative(int key) {
+        return searchIterative(root, key);
+    }
 
 };
