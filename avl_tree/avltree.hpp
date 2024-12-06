@@ -19,6 +19,14 @@ private:
         return getHeight(node->left) - getHeight(node->right);
     }
 
+    // Helper function to find the minimum value in a subtree
+    AVLnode* minValueNode(AVLnode* node) {
+        AVLnode* new_node = node;
+        while (new_node->left != nullptr) {
+            new_node = new_node->left;
+        }
+    }
+
     // Helper function to perform a left rotation on a subtree if not balanced in the right
     AVLnode* leftRotation(AVLnode* node) {
         AVLnode* new_node = node->right;
@@ -43,7 +51,7 @@ private:
         return new_node;
     }
 
-    // Recursive helper function to find the key in a node 
+    // Recursive helper function to find a node in the AVL tree
     AVLnode* searchRecursive(AVLnode* root, int key) {
         if (root == nullptr || root->key == key) {
             return root;
@@ -56,7 +64,7 @@ private:
         }
     }
 
-    // Iterative helper function to find the key in a root
+    // Iterative helper function to find a node in the AVL tree
     AVLnode* searchIterative(AVLnode* root, int key) {
         while (root != nullptr && root->key != key) {
             if (key < root->key) {
@@ -68,7 +76,8 @@ private:
         return root;
     }
 
-    AVLnode* insert(AVLnode* root, int key) {
+    // Helper function to insert a new node into the AVL tree
+    AVLnode* insertNode(AVLnode* root, int key) {
         if (root == nullptr) {
             AVLnode* new_node = new AVLnode(key);
             new_node->key = key;
@@ -76,9 +85,9 @@ private:
         }
 
         if (key < root->key) {
-            root->left = insert(root->left, key);
+            root->left = insertNode(root->left, key);
         } else if (key > root->key) {
-            root->right = insert(root->right, key);
+            root->right = insertNode(root->right, key);
         } else {
             return root;
         }
@@ -98,8 +107,56 @@ private:
             root->right = rightRotation(root);
             return leftRotation(root);
         }
+
+        return root;
     }
 
+    // Helper function to delete a node from the AVL tree
+    AVLnode* deleteNode(AVLnode* root, int key) {
+        if (root == nullptr) {
+            return root;
+        }
+
+        if (key < root->key) {
+            root->left = deleteNode(root->left, key);
+        } else if (key > root->key) {
+            root->right = deleteNode(root->right, key);
+        } else {
+            if ((root->left == nullptr) || (root->right == nullptr)) {
+                AVLnode* temp = root->left ? root->left : root->right;
+
+                if (temp = nullptr) {
+                    temp = root;
+                    root = nullptr;
+                } else {
+                    *root = *temp;
+                }
+                delete temp;
+            } else {
+                AVLnode* temp = minValueNode(root->right);
+                root->key = temp->key;
+                root->right = deleteNode(root->right, temp->key);
+            }                                                        
+        } 
+
+        root->height = 1 + std::max(getHeight(root->left), getHeight(root->right));
+        
+        int balance = getBalance(root);
+
+        if (balance > 1 && getBalance(root->left) >= 0) {
+            return rightRotation(root);
+        } else if (balance > 1 && getBalance(root->left) < 0) {
+            root->left = leftRotation(root->left);
+            return rightRotation(root);
+        } else if (balance < -1 && getBalance(root->right) <= 0) {
+            return leftRotation(root);
+        } else if (balance < -1 && getBalance(root->right) > 0) {
+            root->right = rightRotation(root);
+            return leftRotation(root);
+        }
+
+        return root;
+    }
 
 public:
 
@@ -113,8 +170,12 @@ public:
         return searchIterative(root, key);
     }
 
-    AVLnode* insert(int key) {
-        return insert(root, key);
+    AVLnode* insertNode(int key) {
+        return insertNode(root, key);
+    }
+
+    AVLnode* deleteNode(int key) {
+        return deleteNode(root, key);
     }
 
 };
