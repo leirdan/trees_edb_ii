@@ -1,9 +1,13 @@
 #include "node.h"
+#include <iostream>
 
+/// @brief Implementação de uma heap em ordem decrescente, a MaxHeap
 class Heap
 {
 private:
+  /// @brief Ponteiro para a raiz da heap
   node *heap;
+  /// @brief Quantidade de elementos que a heap comporta
   int size;
 
   void swap(int i1, int i2)
@@ -13,6 +17,7 @@ private:
     heap[i2] = aux;
   }
 
+  // Probably messed up
   void up(int index)
   {
     int parent = index / 2;
@@ -24,26 +29,30 @@ private:
   }
 
   /// @brief Desce um elemento na heap a partir de sua posição.
-  /// @param index Posição do elemento a ser descido.
-  void down(int index)
+  /// @param actual_element Posição do elemento a ser descido.
+  void down(int actual_element)
   {
-    int bigger = index;
+    int bigger_index = actual_element;
+    int left_c = get_left_child(actual_element);
+    int right_c = get_right_child(actual_element);
 
-    if (size >= 2 * index && heap[bigger].key <= heap[2 * index].key)
+    // Checa se o filho da esquerda é maior que o pai
+    if (left_c < size && heap[left_c].key > heap[bigger_index].key)
     {
-      bigger = 2 * index;
+      bigger_index = left_c;
     }
 
-    if (size >= 2 * index + 1 && heap[bigger].key <= heap[2 * index + 1].key)
+    // Checa se o filho da direita é maior que o pai
+    if (right_c < size && heap[right_c].key > heap[bigger_index].key)
     {
-      bigger = 2 * index + 1;
+      bigger_index = right_c;
     }
 
     // Garante que o índice foi alterado
-    if (bigger != index)
+    if (bigger_index != actual_element)
     {
-      swap(bigger, index);
-      down(bigger);
+      swap(bigger_index, actual_element);
+      down(bigger_index);
     }
   };
 
@@ -56,29 +65,28 @@ public:
 
   virtual ~Heap() = default;
 
-  void build(int array[]) {}
-
-  node get(int index)
+  void build(node *array)
   {
-    return heap[index];
+    heap = array;
+    for (int i = (size / 2) - 1; i >= 0; i--)
+    {
+      down(i);
+    }
   }
 
-  node get_parent(int childIndex)
+  int get_parent(int childIndex)
   {
-    if (size >= childIndex)
-      return heap[childIndex / 2];
+    return (childIndex - 1) / 2;
   }
 
-  node get_left_child(int parentIndex)
+  int get_left_child(int parentIndex)
   {
-    if (size >= parentIndex * 2)
-      return heap[parentIndex * 2];
+    return parentIndex * 2 + 1;
   }
 
-  node get_right_child(int parentIndex)
+  int get_right_child(int parentIndex)
   {
-    if (size >= parentIndex * 2 + 1)
-      return heap[parentIndex * 2 + 1];
+    return parentIndex * 2 + 2;
   }
 
   void change(int index, node newValue)
@@ -104,6 +112,16 @@ public:
       heap[0] = heap[size];
       size--;
       down(0);
+    }
+  }
+
+  void print()
+  {
+    std::cout << "Here's your current Heap: \n";
+    for (int i = 0; i < size; i++)
+    {
+      auto node = heap[i];
+      std::cout << node.key << " ";
     }
   }
 };
