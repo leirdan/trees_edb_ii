@@ -20,5 +20,11 @@ int main(int argc, char **argv)
     heap->build(data);
     heap->print();
 
+    std::cout << "Now, insert a new element: ";
+    std::cin >> aux;
+    heap->insert(aux);
+
+    heap->print();
+
     return EXIT_SUCCESS;
 }

@@ -17,14 +17,16 @@ private:
     heap[i2] = aux;
   }
 
-  // Probably messed up
+  /// @brief Sobe um elemento na heap a partir de sua posição.
+  /// @param index Posição do elemento a ser subido.
   void up(int index)
   {
-    int parent = index / 2;
-    if (index > 1 && heap[index].key > heap[parent].key)
+    int parent = get_parent(index);
+    // Só troca elementos caso a chave do filho seja maior que o do pai.
+    if (index > 0 && heap[index].key > heap[parent].key)
     {
       swap(index, parent);
-      up(parent);
+      up(parent); // Executa o algoritmo recursivamente para verificar se o elemento não precisa ser subido novamente.
     }
   }
 
@@ -97,12 +99,16 @@ public:
     }
   };
 
+  /// @brief Adiciona um elemento na heap.
+  /// @param value A chave do novo elemento.
+  /// @details A função primeiro aumenta o tamanho da Heap e aloca o novo elemento na última posição.
+  /// Assim, para que o elemento esteja na posição certa, executa-se o algoritmo para subir o elemento até a posição ideal.
   void insert(int value)
   {
     size++;
     node newNode = node(value);
-    heap[size] = newNode;
-    up(size);
+    heap[size - 1] = newNode;
+    up(size - 1);
   }
 
   void remove(int value)
@@ -123,5 +129,6 @@ public:
       auto node = heap[i];
       std::cout << node.key << " ";
     }
+    std::cout << "\n";
   }
 };
