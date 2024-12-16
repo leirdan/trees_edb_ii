@@ -18,7 +18,13 @@ class Node {
          * @brief Constructor for the Node class.
          * @param key The key of the node.
          */
-        Node(int key);
+        Node(int key){
+            this->key = key;
+            left = nullptr;
+            right = nullptr;
+            parent = nullptr;
+            color = false;
+        }
 
         /**
          * @brief Constructor for the Node class with all parameters.
@@ -28,12 +34,21 @@ class Node {
          * @param parent Pointer to the parent node.
          * @param color The color of the node.
          */
-        Node(int key, Node *left, Node *right, Node *parent, bool color);
+        Node(int key, Node *left, Node *right, Node *parent, bool color){
+            this->key = key;
+            this->left = left;
+            this->right = right;
+            this->parent = parent;
+            this->color = color;
+        }
 
         /**
          * @brief Destructor for the Node class.
          */
-        ~Node();
+        ~Node(){
+            delete left;
+            delete right;
+        }
 };
 
 #endif
