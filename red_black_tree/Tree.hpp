@@ -4,6 +4,7 @@
 #include "Node.hpp"
 
 #include <iostream>
+#include <iomanip>
 
 /**
  * @class Tree
@@ -64,11 +65,14 @@ class Tree {
         void remove(int key){
             Node *z = search(key);
             if (z == nullptr) {
+                std::cout << "Key not found in the tree." << std::endl;
                 return;
             }
+
             Node *y = z;
-            bool y_original_color = y->color;
             Node *x;
+            bool y_original_color = y->color;
+
             if (z->left == nullptr) {
                 x = z->right;
                 transplant(z, z->right);
@@ -93,10 +97,10 @@ class Tree {
                 y->left->parent = y;
                 y->color = z->color;
             }
+            delete z;
             if (y_original_color == false) {
                 remove_fixup(x);
             }
-            delete z;
         }
 
         /**
@@ -121,6 +125,10 @@ class Tree {
          */
         void print(){
             print(root, 0);
+        }
+
+        void updateNodeProperties() {
+            updateNodeProperties(root, nullptr);
         }
     private:
 
@@ -321,16 +329,39 @@ class Tree {
          * @param x The node to start printing from.
          * @param level The current level in the tree.
          */
-        void print(Node *x, int level){
-            if (x != nullptr) {
-                print(x->right, level + 1);
-                for (int i = 0; i < level; i++) {
-                    std::cout << "    ";
+        void print(Node *node, int level){
+            if (node != nullptr) {
+                if (node->right) {
+                    print(node->right, level + 4);
                 }
-                std::cout << x->key << std::endl;
-                print(x->left, level + 1);
+                if (level) {
+                    std::cout << std::setw(level) << ' ';
+                }
+                if (node->right) std::cout << " /\n" << std::setw(level) << ' ';
+                std::cout << node->key << (node->color ? "R" : "B") << "\n ";
+                if (node->left) {
+                    std::cout << std::setw(level) << ' ' << " \\\n";
+                    print(node->left, level + 4);
+                }
             }
         }
+
+        void updateNodeProperties(Node* node, Node* parent) {
+        if (node == nullptr) {
+            return;
+        }
+
+        // Update color and position (left or right)
+        if (parent != nullptr) {
+            node->isLeftChild = (parent->left == node);
+        } else {
+            node->isLeftChild = false; // Root node
+        }
+
+        // Recursively update left and right children
+        updateNodeProperties(node->left, node);
+        updateNodeProperties(node->right, node);
+    }
 };
 
 
