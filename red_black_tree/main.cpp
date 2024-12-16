@@ -1,6 +1,7 @@
-#include <iostream>
 #include "Tree.hpp"
 #include "Node.hpp"
+
+#include <iostream>
 
 
 int main(int argc, char **argv){
@@ -35,5 +36,6 @@ int main(int argc, char **argv){
     }
     tree->print();
     
+    delete tree;
     return EXIT_SUCCESS;
 }
