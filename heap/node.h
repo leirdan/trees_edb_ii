@@ -1,3 +1,5 @@
+#ifndef NODE_H
+#define NODE_H
 struct node
 {
   int key;
@@ -12,3 +14,5 @@ struct node
     this->key = key;
   }
 };
+
+#endif

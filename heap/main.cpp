@@ -7,7 +7,7 @@ int main(int argc, char **argv)
     std::cout << "Insert the amount of elements: ";
     std::cin >> n;
 
-    auto heap = new Heap(n);
+    auto heap = new MaxHeap(n);
     node data[n];
 
     std::cout << "Insert each element: ";
