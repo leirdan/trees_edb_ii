@@ -17,13 +17,16 @@ int main(int argc, char **argv)
         data[i] = node(aux);
     }
 
-    heap->build(data);
+    heap->heapify(data);
     heap->print();
 
     std::cout << "Now, insert a new element: ";
     std::cin >> aux;
     heap->insert(aux);
+    heap->print();
 
+    std::cout << "Using heap sort... \n";
+    heap->sort();
     heap->print();
 
     return EXIT_SUCCESS;

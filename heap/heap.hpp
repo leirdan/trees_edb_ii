@@ -10,6 +10,9 @@ private:
   /// @brief Quantidade de elementos que a heap comporta
   int size;
 
+  /// @brief Função auxiliar para trocar elementos.
+  /// @param i1 Índice do 1º elemento
+  /// @param i2 Índice do 2º elemento
   void swap(int i1, int i2)
   {
     node aux = heap[i1];
@@ -67,15 +70,6 @@ public:
 
   virtual ~Heap() = default;
 
-  void build(node *array)
-  {
-    heap = array;
-    for (int i = (size / 2) - 1; i >= 0; i--)
-    {
-      down(i);
-    }
-  }
-
   int get_parent(int childIndex)
   {
     return (childIndex - 1) / 2;
@@ -91,14 +85,6 @@ public:
     return parentIndex * 2 + 2;
   }
 
-  void change(int index, node newValue)
-  {
-    if (size >= index)
-    {
-      heap[index] = newValue;
-    }
-  };
-
   /// @brief Adiciona um elemento na heap.
   /// @param value A chave do novo elemento.
   /// @details A função primeiro aumenta o tamanho da Heap e aloca o novo elemento na última posição.
@@ -111,14 +97,54 @@ public:
     up(size - 1);
   }
 
-  void remove(int value)
+  /// @brief Remove o elemento raiz da heap.
+  /// @details A função realiza a troca da raiz com a última folha
+  /// e rearranja esta folha dentro da heap corretamente.
+  void remove_root()
   {
     if (size > 0)
     {
-      heap[0] = heap[size];
+      swap(0, size - 1);
       size--;
       down(0);
     }
+  }
+
+  /// @brief Transforma um vetor comum em uma Max Heap.
+  /// @param array Ponteiro para o vetor.
+  void heapify(node *array)
+  {
+    heap = array;
+    for (int i = (size / 2) - 1; i >= 0; i--)
+    {
+      down(i);
+    }
+  }
+
+  /// @brief Ordena a heap de forma crescente.
+  /// @param array Argumento opcional que representa um vetor.
+  /// Se o vetor for fornecido, este será transformado em heap e ordenado após isso.
+  /// Senão, será usado o armazenado anteriormente.
+  /// @details Em resumo, o heapsort usa da função remove_root para trocar de lugar as raízes da árvore (números grandes) com as folhas (números pequenos) e rearranjar estes. Logo, os maiores sempre ficarão ao fim e os menores no começo, formando uma lista crescente. O tamanho da heap é alterado no remove_root, mas ajustado ao fim do heapsort para englobar todos os elementos
+  void sort(node *array = nullptr)
+  {
+    if (array != nullptr)
+      heapify(array);
+
+    if (heap == nullptr)
+    {
+      std::cout << "Heap is empty! Provide some data. \n";
+      return;
+    }
+
+    int original_size = this->size;
+
+    for (int i = size; i > 1; i--)
+    {
+      remove_root();
+    }
+
+    this->size = original_size;
   }
 
   void print()
