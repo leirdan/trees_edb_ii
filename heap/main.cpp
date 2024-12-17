@@ -1,4 +1,4 @@
-#include "heap.hpp"
+#include "max-heap.hpp"
 
 int main(int argc, char **argv)
 {

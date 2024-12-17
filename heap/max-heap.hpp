@@ -4,7 +4,7 @@
 #include "heap.hpp"
 
 /// @brief Implementação de uma heap em ordem decrescente, a MaxHeap
-class MaxHeap : Heap
+class MaxHeap : public Heap
 {
 private:
   /// @brief Sobe um elemento na heap a partir de sua posição.
