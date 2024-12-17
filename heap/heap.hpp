@@ -1,3 +1,6 @@
+#ifndef HEAP_HPP
+#define HEAP_HPP
+
 #include "node.h"
 #include <iostream>
 
@@ -158,3 +161,5 @@ public:
     std::cout << "\n";
   }
 };
+
+#endif // !HEAP_HPP
