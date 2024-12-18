@@ -1,13 +1,24 @@
 #include "max-heap.hpp"
+#include "min-heap.hpp"
+#include "heap.hpp"
 
 int main(int argc, char **argv)
 {
     int n = 0, aux = 0;
+    bool choice = 0;
+    Heap *heap = nullptr;
 
     std::cout << "Insert the amount of elements: ";
     std::cin >> n;
 
-    auto heap = new MaxHeap(n);
+    std::cout << "min or max heap? (0 = min, 1 = max)\n";
+    std::cin >> choice;
+
+    if (choice == 0)
+        heap = new MinHeap(n);
+    else
+        heap = new MaxHeap(n);
+
     node data[n];
 
     std::cout << "Insert each element: ";
