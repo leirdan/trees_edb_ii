@@ -36,7 +36,23 @@ public:
     this->heap = new node[size];
   };
 
+  Heap(int size, node *array)
+  {
+    this->size = size;
+    this->heap = array;
+  }
+
   virtual ~Heap() = default;
+
+  int get_size()
+  {
+    return this->size;
+  }
+
+  node *get_data()
+  {
+    return this->heap;
+  }
 
   int get_parent(int childIndex)
   {
