@@ -53,15 +53,19 @@ private:
      * @param node Ponteiro para o nó que será rotacionado.
      * @return Ponteiro para o novo nó raiz após a rotação.
      */
-    AVLnode* leftRotation(AVLnode* node) {
-        AVLnode* new_node = node->right;
-        node->right = new_node->left;
-        new_node->left = node;
+    AVLnode* leftRotation(AVLnode* x) {
+        AVLnode* y = x->right;
+        AVLnode* T2 = y->left;
 
-        node->height = 1 + std::max(getHeight(node->left), getHeight(node->right));
-        new_node->height = 1 + std::max(getHeight(new_node->left), getHeight(new_node->right));
+        // Perform rotation
+        y->left = x;
+        x->right = T2;
 
-        return new_node;
+        // Update heights
+        x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+        y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+
+        return y;
     }
 
     /**
@@ -69,15 +73,19 @@ private:
      * @param node Ponteiro para o nó que será rotacionado.
      * @return Ponteiro para o novo nó raiz após a rotação.
      */
-    AVLnode* rightRotation(AVLnode* node) {
-        AVLnode* new_node = node->left;
-        node->left = new_node->right;
-        new_node->right = node;
+    AVLnode* rightRotation(AVLnode* y) {
+        AVLnode* x = y->left;
+        AVLnode* T2 = x->right;
 
-        node->height = 1 + std::max(getHeight(node->left), getHeight(node->right));
-        new_node->height = 1 + std::max(getHeight(new_node->left), getHeight(new_node->right));
+        // Perform rotation
+        x->right = y;
+        y->left = T2;
 
-        return new_node;
+        // Update heights
+        y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+        x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+
+        return x;
     }
 
     /**
@@ -87,16 +95,28 @@ private:
      * @return Ponteiro para o nó encontrado ou nullptr se a chave não existir.
      */
     AVLnode* searchRecursive(AVLnode* root, int key) {
-        if (root == nullptr || root->key == key) {
+        if (root == nullptr) {
+            std::cout << "Node is nullptr. Key " << key << " not found.\n";
+            return nullptr;
+        }
+
+        if (root->key == key) {
+            std::cout << "Key " << key << " found at node with key: " << root->key << "\n";
             return root;
         }
+        
         if (key < root->key) {
             return searchRecursive(root->left, key);
         }
+
         if (key > root->key) {
             return searchRecursive(root->right, key);
         }
+
+        return nullptr;  // If no match is found
     }
+
+
 
     /**
      * @brief Busca iterativa por um nó com a chave especificada.
@@ -112,6 +132,13 @@ private:
                 root = root->right;
             }
         }
+
+        if (root == nullptr) {
+            std::cout << "Key " << key << " not found in the tree.\n";
+        } else {
+            std::cout << "Key " << key << " found at node with key: " << root->key << "\n";
+        }
+        
         return root;
     }
 
@@ -141,16 +168,36 @@ private:
         root->height = 1 + std::max(getHeight(root->left), getHeight(root->right));
         
         int balance = getBalance(root);
+        
+        // Print the balance factor
+        std::cout << "Inserindo: " << key << ", Nó: " << root->key
+                << ", Fator de Balanceamento: " << balance << "\n";
 
+        // Left-Left Case
         if (balance > 1 && key < root->left->key) {
+            std::cout << "Realizando uma rotação à direita no nó " << root->key << "\n";
             return rightRotation(root);
-        } else if (balance > 1 && key > root->left->key) {
-            root->left = leftRotation(root->left);
-            return rightRotation(root);
-        } else if (balance < -1 && key > root->right->key) {
+        }
+
+        // Right-Right Case
+        if (balance < -1 && key > root->right->key) {
+            std::cout << "Realizando uma rotação à esquerda no nó" << root->key << "\n";
             return leftRotation(root);
-        } else if (balance < -1 && key < root->right->key) {
-            root->right = rightRotation(root);
+        }
+
+        // Left-Right Case
+        if (balance > 1 && key > root->left->key) {
+            std::cout << "Realizando uma rotação à esquerda no filho esquerdo do nó " << root->key << "\n";
+            root->left = leftRotation (root->left);
+            std::cout << "Realizando uma rotação à direita no nó " << root->key << "\n";
+            return rightRotation(root);
+        }
+
+        // Right-Left Case
+        if (balance < -1 && key < root->right->key) {
+            std::cout << "Realizando uma rotação à direita no filho direito do nó " << root->key << "\n";
+            root->right = rightRotation(root->right);
+            std::cout << "Realizando uma rotação à esquerda no nó " << root->key << "\n";
             return leftRotation(root);
         }
 
@@ -176,7 +223,7 @@ private:
             if ((root->left == nullptr) || (root->right == nullptr)) {
                 AVLnode* temp = root->left ? root->left : root->right;
 
-                if (temp = nullptr) {
+                if (temp == nullptr) {
                     temp = root;
                     root = nullptr;
                 } else {
@@ -251,8 +298,8 @@ public:
         root = insertNode(root, key);
     }
 
-    AVLnode* deleteNode(int key) {
-        return deleteNode(root, key);
+    void deleteNode(int key) {
+        root = deleteNode(root, key);
     }
 
     void print() {

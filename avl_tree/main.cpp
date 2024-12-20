@@ -13,4 +13,10 @@ int main(int argc, char **argv){
     std::cout << "Elementos inseridos. Imprimindo árvore...\n";
     tree.print();
     std::cout << "Finalizado.\n";
+
+    std::cout << "\nProcure o nó com a chave 18 (busca recursiva):\n";
+    tree.searchRecursive(18);
+
+    std::cout << "\nProcure o nó com a chave 25 (busca iterativa):\n";
+    tree.searchIterative(25);
 }
