@@ -13,7 +13,7 @@ class Node {
         Node *right; ///< Pointer to the right child.
         Node *parent; ///< Pointer to the parent node.
         bool color; ///< The color of the node (0 = black, 1 = red).
-        bool isLeftChild; ///< Whether the node is a left child.
+        int depth; ///< The depth of the node in the tree.
         
         /**
          * @brief Constructor for the Node class.
@@ -25,7 +25,6 @@ class Node {
             right = nullptr;
             parent = nullptr;
             color = false;
-            isLeftChild = false;
         }
 
         /**
@@ -36,13 +35,12 @@ class Node {
          * @param parent Pointer to the parent node.
          * @param color The color of the node.
          */
-        Node(int key, Node *left, Node *right, Node *parent, bool color, bool isLeftChild){
+        Node(int key, Node *left, Node *right, Node *parent, bool color){
             this->key = key;
             this->left = left;
             this->right = right;
             this->parent = parent;
             this->color = color;
-            this->isLeftChild = isLeftChild;
         }
 
         /**

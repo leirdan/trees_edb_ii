@@ -33,29 +33,44 @@ class Tree {
          * @param key The key to be inserted.
          */
         void insert(int key){
-            Node *z = new Node(key);
-            Node *y = nullptr;
-            Node *x = root;
-            while (x != nullptr) {
-                y = x;
-                if (z->key < x->key) {
-                    x = x->left;
+            Node *newNode = new Node(key);
+            newNode->color = true;
+            newNode->parent = nullptr;
+            newNode->right = nullptr;
+            newNode->left = nullptr;
+            
+            // If the tree is empty, the new node becomes the root.
+            if (root == nullptr) {
+                root = newNode;
+                newNode->color = false;
+                newNode->depth = 0;
+                return;
+            }
+
+            // Find the parent of the new node.
+            Node *current = root;
+            Node *parent = nullptr;
+            int depth = 0;
+            while(current != nullptr) {
+                parent = current;
+                if (newNode->key < current->key) {
+                    current = current->left;
                 } else {
-                    x = x->right;
+                    current = current->right;
                 }
+                depth++;
             }
-            z->parent = y;
-            if (y == nullptr) {
-                root = z;
-            } else if (z->key < y->key) {
-                y->left = z;
+            newNode->parent = parent;
+            newNode->depth = depth;
+            
+            // If the new node is less than the parent, it becomes the left child.
+            if (newNode->key < parent->key) {
+                parent->left = newNode;
             } else {
-                y->right = z;
+                parent->right = newNode;
             }
-            z->left = nullptr;
-            z->right = nullptr;
-            z->color = true;
-            insert_fixup(z);
+
+            insert_fixup(newNode);
         }
 
         /**
@@ -127,11 +142,11 @@ class Tree {
             print(root, 0);
         }
 
-        void updateNodeProperties() {
-            updateNodeProperties(root, nullptr);
-        }
     private:
 
+        /**
+         * @brief Tree destructor
+         */
         void destroy_tree(Node *x){
             if (x != nullptr) {
                 destroy_tree(x->left);
@@ -140,48 +155,64 @@ class Tree {
             }
         }
 
-        /**
-         * @brief Fixes the tree after insertion to maintain Red-Black properties.
-         * @param z The node to start fixing from.
-         */
-        void insert_fixup(Node *z){
+        void insert_fixup(Node *z) {
             while (z->parent != nullptr && z->parent->color == true) {
-                if (z->parent == z->parent->parent->left) {
-                    Node *y = z->parent->parent->right;
-                    if (y != nullptr && y->color == true) {
+                Node *grandparent = z->parent->parent;
+
+                // case 1: z's parent is the left child of the grandparent
+                if (z->parent == grandparent->left) { 
+                    Node *uncle = grandparent->right;
+
+                    // case 1: uncle is red
+                    if (uncle != nullptr && uncle->color == true) { 
                         z->parent->color = false;
-                        y->color = false;
-                        z->parent->parent->color = true;
-                        z = z->parent->parent;
-                    } else {
+                        uncle->color = false;
+                        grandparent->color = true;
+                        z = grandparent;
+                    } 
+                    // case 2: uncle is black
+                    else { 
                         if (z == z->parent->right) {
                             z = z->parent;
                             left_rotate(z);
                         }
+                        // Case 3: z is left child
                         z->parent->color = false;
-                        z->parent->parent->color = true;
-                        right_rotate(z->parent->parent);
+                        grandparent->color = true;
+                        right_rotate(grandparent);
                     }
-                } else {
-                    Node *y = z->parent->parent->left;
-                    if (y != nullptr && y->color == true) {
-                        z->parent->color = false;
-                        y->color = false;
-                        z->parent->parent->color = true;
-                        z = z->parent->parent;
-                    } else {
-                        if (z == z->parent->left) {
+                }
+                // case 2: z's parent is the right child of the grandparent
+                else { 
+                    Node *uncle = grandparent->left;
+
+                    // case 1: uncle is red
+                    if (uncle != nullptr && uncle->color == true) { 
+                    z->parent->color = false;
+                    uncle->color = false;
+                    grandparent->color = true;
+                    z = grandparent;
+                    } 
+                    
+                    else {
+                        // case 2: z is left child
+                        if (z == z->parent->left) { 
                             z = z->parent;
                             right_rotate(z);
                         }
-                        z->parent->color = false;
-                        z->parent->parent->color = true;
-                        left_rotate(z->parent->parent);
+                        // case 3: z is right child
+                        else { z->parent->color = false;
+                        grandparent->color = true;
+                        left_rotate(grandparent);
+                        }
                     }
                 }
             }
+
+            // Make sure the root is black
             root->color = false;
         }
+
 
         /**
          * @brief Fixes the tree after removal to maintain Red-Black properties.
@@ -338,30 +369,14 @@ class Tree {
                     std::cout << std::setw(level) << ' ';
                 }
                 if (node->right) std::cout << " /\n" << std::setw(level) << ' ';
-                std::cout << node->key << (node->color ? "R" : "B") << "\n ";
+                std::cout << node->key << (node->color ? "R" : "B") << node->depth <<"\n ";
                 if (node->left) {
                     std::cout << std::setw(level) << ' ' << " \\\n";
                     print(node->left, level + 4);
                 }
             }
         }
-
-        void updateNodeProperties(Node* node, Node* parent) {
-        if (node == nullptr) {
-            return;
-        }
-
-        // Update color and position (left or right)
-        if (parent != nullptr) {
-            node->isLeftChild = (parent->left == node);
-        } else {
-            node->isLeftChild = false; // Root node
-        }
-
-        // Recursively update left and right children
-        updateNodeProperties(node->left, node);
-        updateNodeProperties(node->right, node);
-    }
+        
 };
 
 
