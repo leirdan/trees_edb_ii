@@ -1,7 +1,7 @@
 #include "max-heap.hpp"
 #include "min-heap.hpp"
 #include "heap.hpp"
-#include "../utils.h"
+#include "../../utils.h"
 #include <chrono>
 #include <exception>
 
@@ -15,8 +15,8 @@ int main(int argc, char **argv)
 
 void execute()
 {
-    const std::string prefix = "./data/random_list_";
-    const std::string sorted_prefix = "./data/sorted_random_list_";
+    const std::string prefix = "../data/random_list_";
+    const std::string sorted_prefix = "../data/sorted_random_list_";
 
     random_list lists[] = {random_list(prefix + "10000.txt", sorted_prefix + "10000_", 10000),
                            random_list(prefix + "100000.txt", sorted_prefix + "100000_", 100000),

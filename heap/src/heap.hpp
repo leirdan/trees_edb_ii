@@ -120,7 +120,7 @@ public:
   /// @param array Argumento opcional que representa um vetor.
   /// Se o vetor for fornecido, este será transformado em heap e ordenado após isso.
   /// Senão, será usado o armazenado anteriormente.
-  /// @details Em resumo, o heapsort usa da função remove_root para trocar de lugar as raízes da árvore (números grandes para MaxHeap e pequenos para MinHeap) com as folhas (números pequenos para MinHeap e grandes para MaxHeap) e ordenar as antigas folhas na árvore. O tamanho da heap é alterado no remove_root, mas ajustado ao fim do heapsort para englobar todos os elementos
+  /// @details Em resumo, o heapsort usa da função remove_root para trocar de lugar as raízes da árvore (números grandes para MaxHeap e pequenos para MinHeap) com as folhas (números pequenos para MinHeap e grandes para MaxHeap) e ordenar as antigas folhas na árvore. O tamanho da heap é alterado no remove_root, mas ajustado ao fim do heapsort para englobar todos os elementos.
   void sort(node *array = nullptr)
   {
     if (array != nullptr)
