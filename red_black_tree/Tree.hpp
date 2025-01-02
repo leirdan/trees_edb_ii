@@ -120,7 +120,7 @@ class Tree {
                 y->color = z->color;
             }
             delete z;
-            if (y_original_color == false) {
+            if (y_original_color == false && x != nullptr) {
                 remove_fixup(x);
             }
         }
@@ -163,6 +163,10 @@ class Tree {
             }
         }
 
+        /**
+         * @brief Conserta a árvore após a inserção de um nó.
+         * @param z O nó a ser consertado.
+         */
         void insert_fixup(Node *z) {
             while (z->parent != nullptr && z->parent->color == true) {
                 Node *grandparent = z->parent->parent;
@@ -222,6 +226,11 @@ class Tree {
             update_depth(root, 0);
         }
 
+        /**
+         * @brief Atualiza a profundidade dos nós da árvore.
+         * @param node O nó a ser atualizado.
+         * @param depth A profundidade do nó.
+         */
         void update_depth(Node *node, int depth) {
             if (node != nullptr) {
                 node->depth = depth;
@@ -235,7 +244,7 @@ class Tree {
          * @param x O nó a ser consertado.
          */
         void remove_fixup(Node *x){
-            while (x != root && x->color == false) {
+            while (x != root && x != nullptr && x->color == false) {
                 if (x == x->parent->left) {
                     Node *w = x->parent->right;
                     if (w->color == true) {
@@ -294,7 +303,9 @@ class Tree {
                     }
                 }
             }
-            x->color = false;
+            if (x != nullptr) {
+                x->color = false;
+            }
             update_depth(root, 0);
         }
 

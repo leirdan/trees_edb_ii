@@ -22,6 +22,7 @@ int main(int argc, char **argv){
     }
 
     std::cout << "Árvore pós inserções: " << std::endl;
+    std::cout << std::endl;
     tree->print();
     
     std::cout << std::endl;
@@ -30,7 +31,7 @@ int main(int argc, char **argv){
     std::cin >> key;
     Node *node = tree->search(key);
     if (node != nullptr) {
-        std::cout << "Encontrado: " << node->key << " nivel: " << node->depth << " cor: " << node->color << std::endl;
+        std::cout << "Encontrado: " << node->key << " nivel: " << node->depth << " cor: " << (node->color ? "RED" : "BLACK") << std::endl;
     } else {
         std::cout << "Não Encontrado." << std::endl;
     }
@@ -50,6 +51,7 @@ int main(int argc, char **argv){
     }
 
     std::cout << "Árvore pós remoções: " << std::endl;
+    std::cout << std::endl;
     tree->print();
 
     delete tree;
