@@ -8,43 +8,21 @@
  */
 class Node {
     public:
-        int key; ///< The key of the node.
-        Node *left; ///< Pointer to the left child.
-        Node *right; ///< Pointer to the right child.
-        Node *parent; ///< Pointer to the parent node.
-        bool color; ///< The color of the node (0 = black, 1 = red).
-        int depth; ///< The depth of the node in the tree.
+        int key; ///< Chave do nó.
+        Node *left; ///< Ponteiro para o filho esquerdo.
+        Node *right; ///< Ponteiro para o filho direito.
+        Node *parent; ///< Ponteiro para o pai.
+        bool color; ///< Cor do nó (0 = negro, 1 = vermelho).
+        int depth; ///< Nivel do nó.
         
         /**
-         * @brief Constructor for the Node class.
-         * @param key The key of the node.
+         * @brief Construtor da classe Node.
+         * @param key A chave do nó.
          */
-        Node(int key){
-            this->key = key;
-            left = nullptr;
-            right = nullptr;
-            parent = nullptr;
-            color = false;
-        }
+        Node(int key) : key(key), left(nullptr), right(nullptr), parent(nullptr), color(true), depth(0) {}
 
         /**
-         * @brief Constructor for the Node class with all parameters.
-         * @param key The key of the node.
-         * @param left Pointer to the left child.
-         * @param right Pointer to the right child.
-         * @param parent Pointer to the parent node.
-         * @param color The color of the node.
-         */
-        Node(int key, Node *left, Node *right, Node *parent, bool color){
-            this->key = key;
-            this->left = left;
-            this->right = right;
-            this->parent = parent;
-            this->color = color;
-        }
-
-        /**
-         * @brief Destructor for the Node class.
+         * @brief Destruidor da classe Node.
          */
         ~Node() = default;
 };

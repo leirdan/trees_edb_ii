@@ -8,29 +8,29 @@
 
 /**
  * @class Tree
- * @brief A class representing a Red-Black Tree.
+ * @brief Uma classe que representa a árvore rubro negro.
  */
 class Tree {
     public:
-        Node *root; ///< The root node of the tree.
+        Node *root; ///< A raíz da árvore.
 
         /**
-         * @brief Constructor for the Tree class.
+         * @brief Construtor da classe.
          */
         Tree(){
             root = nullptr;
         }
 
         /**
-         * @brief Destructor for the Tree class.
+         * @brief Destruidor da classe
          */
         ~Tree(){
             destroy_tree(root);
         }
 
         /**
-         * @brief Inserts a key into the tree.
-         * @param key The key to be inserted.
+         * @brief Insere uma chave na árvore.
+         * @param key A chave a ser inserida.
          */
         void insert(int key){
             Node *newNode = new Node(key);
@@ -39,7 +39,7 @@ class Tree {
             newNode->right = nullptr;
             newNode->left = nullptr;
             
-            // If the tree is empty, the new node becomes the root.
+            // Se a árvore estiver vazia, o novo nó é a raiz.
             if (root == nullptr) {
                 root = newNode;
                 newNode->color = false;
@@ -47,10 +47,17 @@ class Tree {
                 return;
             }
 
-            // Find the parent of the new node.
+            Node *oldNode = search(key);
+            if (oldNode != nullptr) {
+                std::cout << "Chave já existe." << std::endl;
+                std::cout << std::endl;
+                return;
+            }
+
+            // Encontra o pai do novo nó.
             Node *current = root;
             Node *parent = nullptr;
-            int depth = 0;
+            int level = 0;
             while(current != nullptr) {
                 parent = current;
                 if (newNode->key < current->key) {
@@ -58,12 +65,12 @@ class Tree {
                 } else {
                     current = current->right;
                 }
-                depth++;
+                level++;
             }
             newNode->parent = parent;
-            newNode->depth = depth;
+            newNode->depth = level;
             
-            // If the new node is less than the parent, it becomes the left child.
+            // Se a chave do novo nó for menor que a chave do pai, o novo nó é filho esquerdo.
             if (newNode->key < parent->key) {
                 parent->left = newNode;
             } else {
@@ -74,13 +81,13 @@ class Tree {
         }
 
         /**
-         * @brief Removes a key from the tree.
-         * @param key The key to be removed.
+         * @brief Remove uma chave da árvore.
+         * @param key A chave a ser removida.
          */
         void remove(int key){
             Node *z = search(key);
             if (z == nullptr) {
-                std::cout << "Key not found in the tree." << std::endl;
+                std::cout << "Chave não encontrada." << std::endl;
                 return;
             }
 
@@ -119,9 +126,9 @@ class Tree {
         }
 
         /**
-         * @brief Searches for a key in the tree.
-         * @param key The key to search for.
-         * @return A pointer to the node containing the key, or nullptr if not found.
+         * @brief Procura por uma chave na árvore.
+         * @param key A chave a ser procurada.
+         * @return O nó com a chave procurada.
          */
         Node *search(int key){
             Node *x = root;
@@ -136,7 +143,7 @@ class Tree {
         }
 
          /**
-         * @brief Prints the tree.
+         * @brief Imprime a árvore.
          */
         void print(){
             print(root, 0);
@@ -145,7 +152,8 @@ class Tree {
     private:
 
         /**
-         * @brief Tree destructor
+         * @brief Destruidir da árvore.
+         * @param x O nó a ser destruído.
          */
         void destroy_tree(Node *x){
             if (x != nullptr) {
@@ -159,34 +167,34 @@ class Tree {
             while (z->parent != nullptr && z->parent->color == true) {
                 Node *grandparent = z->parent->parent;
 
-                // case 1: z's parent is the left child of the grandparent
+                // caso 1: o pai de z é o filho esquerdo do avô
                 if (z->parent == grandparent->left) { 
                     Node *uncle = grandparent->right;
 
-                    // case 1: uncle is red
+                    // caso 1: tio é vermelho
                     if (uncle != nullptr && uncle->color == true) { 
                         z->parent->color = false;
                         uncle->color = false;
                         grandparent->color = true;
                         z = grandparent;
                     } 
-                    // case 2: uncle is black
+                    // caso 2: tio é negro
                     else { 
                         if (z == z->parent->right) {
                             z = z->parent;
                             left_rotate(z);
                         }
-                        // Case 3: z is left child
+                        // caso 3: z é filho esquerdo
                         z->parent->color = false;
                         grandparent->color = true;
                         right_rotate(grandparent);
                     }
                 }
-                // case 2: z's parent is the right child of the grandparent
+                // caso 2: o pai de z é o filho direito do avô
                 else { 
                     Node *uncle = grandparent->left;
 
-                    // case 1: uncle is red
+                    // caso 1: tio é vermelho
                     if (uncle != nullptr && uncle->color == true) { 
                     z->parent->color = false;
                     uncle->color = false;
@@ -195,12 +203,12 @@ class Tree {
                     } 
                     
                     else {
-                        // case 2: z is left child
+                        // caso 2: z é filho esquerdo
                         if (z == z->parent->left) { 
                             z = z->parent;
                             right_rotate(z);
                         }
-                        // case 3: z is right child
+                        // caso 3: z é filho direito
                         else { z->parent->color = false;
                         grandparent->color = true;
                         left_rotate(grandparent);
@@ -209,14 +217,22 @@ class Tree {
                 }
             }
 
-            // Make sure the root is black
+            // Garatindo que a raiz seja negra
             root->color = false;
+            update_depth(root, 0);
         }
 
+        void update_depth(Node *node, int depth) {
+            if (node != nullptr) {
+                node->depth = depth;
+                update_depth(node->left, depth + 1);
+                update_depth(node->right, depth + 1);
+            }
+        }
 
         /**
-         * @brief Fixes the tree after removal to maintain Red-Black properties.
-         * @param x The node to start fixing from.
+         * @brief Conserta a árvore após a remoção de um nó.
+         * @param x O nó a ser consertado.
          */
         void remove_fixup(Node *x){
             while (x != root && x->color == false) {
@@ -279,11 +295,12 @@ class Tree {
                 }
             }
             x->color = false;
+            update_depth(root, 0);
         }
 
         /**
-         * @brief Performs a left rotation on the tree.
-         * @param x The node to rotate around.
+         * @brief Produz a rotação à esquerda na árvore.
+         * @param x O nó a ser rotacionado.
          */
         void left_rotate(Node *x){
             Node *y = x->right;
@@ -304,8 +321,8 @@ class Tree {
         }
 
         /**
-         * @brief Performs a right rotation on the tree.
-         * @param x The node to rotate around.
+         * @brief Produz a rotação à direita na árvore.
+         * @param x O nó a ser rotacionado.
          */
         void right_rotate(Node *x){
             Node *y = x->left;
@@ -326,9 +343,9 @@ class Tree {
         }
 
         /**
-         * @brief Replaces one subtree as a child of its parent with another subtree.
-         * @param u The node to be replaced.
-         * @param v The node to replace with.
+         * @brief Substitui um nó por outro.
+         * @param u O nó a ser substituído.
+         * @param v O nó que substituirá u.
          */
         void transplant(Node *u, Node *v){
             if (u->parent == nullptr) {
@@ -344,9 +361,9 @@ class Tree {
         }
 
          /**
-         * @brief Finds the minimum node in a subtree.
-         * @param x The root of the subtree.
-         * @return A pointer to the minimum node.
+         * @brief Encontra o nó com a menor chave na subárvore.
+         * @param x O nó a partir do qual a busca deve começar.
+         * @return O nó com a menor chave.
          */
         Node *minimum(Node *x){
             while (x->left != nullptr) {
@@ -356,9 +373,9 @@ class Tree {
         }
 
         /**
-         * @brief Prints the tree starting from a given node.
-         * @param x The node to start printing from.
-         * @param level The current level in the tree.
+         * @brief Imprime a árvore.
+         * @param x O nó a ser impresso.
+         * @param level O nível do nó.
          */
         void print(Node *node, int level){
             if (node != nullptr) {
