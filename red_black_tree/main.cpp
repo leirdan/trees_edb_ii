@@ -17,8 +17,7 @@ int main(int argc, char **argv){
         std::cin >> key;
         std::cout << std::endl;
         tree->insert(key);
-        tree->updateNodeProperties();
-        //tree->print();
+        tree->print();
         std::cout << std::endl;
     }
     tree->print();
@@ -43,11 +42,9 @@ int main(int argc, char **argv){
         std::cin >> key;
         std::cout << std::endl;
         tree->remove(key);
-        tree->updateNodeProperties();
-        //tree->print();
+        tree->print();
         std::cout << std::endl;
     }
-    
 
     delete tree;
     return EXIT_SUCCESS;
