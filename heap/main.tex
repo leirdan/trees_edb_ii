@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+\usepackage{booktabs}
+\usepackage{float}
+
+\title{Análise do HeapSort}
+\author{Andriel Vinicius de M. Fernandes}
+\date{ }
+
+\begin{document}
+
+\maketitle
+\begin{table}[ht]
+    \centering
+    \caption{Resultados da Execução do 'BubbleSort'.}
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        Tamanho do Vetor (\(n\)) & Iterativo & Recursivo (ms) \\ \midrule
+        10000       & 239 & 161            \\
+        100000      & 34.299 & x            \\
+        1000000     & 4.168.111 & x           \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \caption{Resultados da Execução do 'MergeSort'.}
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        Tamanho do Vetor (\(n\)) & Iterativo & Recursivo (ms) \\ \midrule
+        10000       & 6 & 4            \\
+        100000      & 43 & 48            \\
+        1000000     & 437  &  457         \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \caption{Resultados da Execução do 'QuickSort'.}
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        Tamanho do Vetor (\(n\)) & Iterativo & Recursivo (ms) \\ \midrule
+        10000       & 1 & 1            \\
+        100000      & 19 & 15            \\
+        1000000     & 204 & 167          \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \caption{Resultados da Execução do 'Heapsort'.}
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        Tamanho do Vetor (\(n\)) & Execução em MaxHeap & Execução em MinHeap  (ms) \\ \midrule
+        10000       & 3 & 3            \\
+        100000      & 42 & 46            \\
+        1000000     & 676 & 754           \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Complexidade}
+A função de HeapSort, elaborada dentro da classe Heap com o nome de $sort$, tem complexidade de $O(n \log n)$ pois é composta por um laço de repetição de complexidade $O(n)$, cujas iterações utilizam a função $remove_root$ de complexidade $(O \log n)$ devido às chamadas à função $down$. Isto evidencia um comportamento de crescimento relativamente linear nas execuções, onde, aumentando em 10 vezes o tamanho do vetor, o tempo de execução aumentou, no mínimo, mais de 10 vezes, no geral.
+
+\subsection{Desempenho da Função}
+Realizamos execuções do HeapSort com tamanhos de vetores $n = 10000$, $n = 100000$ e $n = 1000000$. Os dados revelam poucas diferenças entre as instâncias, indicando que a MaxHeap parece ser ligeiramente melhor de ordenar do que uma MinHeap. Contudo, isso pode ser relativo de cada instância (vetor utilizado) do problema. O desempenho foi medido em microssegundos para obter um tempo mais preciso, mas foi disposto na tabela em milisegundos.
+
+\subsection{Comparação com Sorts}
+O HeapSort, quando comparado com os outros algoritmos de ordenação, apresenta tempos muito melhores que o BubbleSort, relativamente equivalentes ao MergeSort e relativamente piores que o QuickSort. Tal resultado ocorre devido à natureza relativamente ordenada da Heap, onde um elemento pai é sempre maior (na MaxHeap) ou menor (na MinHeap) que os elementos filhos, prevenindo a aleatoriedade completa da lista. 
+
+Apesar do tempo aceitável, o HeapSort é um algoritmo com um passo recursivo executado pela função $down$, o que pode acarretar em um maior custo de memória a depender do elemento que será rearranjado na lista e do tamanho do problema. Curiosamente, houve problemas durante a execução do BubbleSort recursivo, onde a memória disponível para o programa esgotou antes do fim da execução todas as vezes; logo, apesar do passo recursivo do HeapSort, ele nem de longe é ruim como o BubbleSort.
+
+\end{document}
