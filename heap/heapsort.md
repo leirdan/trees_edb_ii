@@ -1,14 +1,46 @@
 # Definição do pseudocódigo do HeapSort
 
 ```none
-TODO: descrever a função descer!!
+# Função que desce um elemento em uma posição X na heap de acordo com o valor de seus filhos.
+# Ao final, caso o elemento tenha sido descido, o algoritmo é chamado recursivamente,
+# levando em conta os novos filhos do elemento.
+# NOTA: algoritmo criado para a MinHeap. 
+# Caso deseje adaptar para a MaxHeap, basta 
+# trocar o sinal de comparação das linhas "tem filho esquerdo" e "direito" para ">".
+descer(heap[], tamanho, indice_atual): 
+  # Não há mais o que descer
+  se (indice == tamanho)
+    retorne
+    
+  # Atribuição de variáveis para melhorar a leitura
+  seja indice_a_trocar = indice_atual 
+
+  seja tem_filho_esquerdo = indice_atual * 2 < tamanho
+  seja tem_filho_direito = indice_atual * 2 + 1 < tamanho
+  
+  seja pai = heap[indice_atual]
+  seja filho_esquerdo = se (tem_filho_esquerdo): heap[indice_atual * 2] senao: nulo
+  seja filho_direito = se (tem_filho_direito): heap[indice_atual * 2 + 1] senao: nulo 
+    
+  se (tem_filho_esquerdo && pai < filho_esquerdo):
+    indice_a_trocar = indice_atual * 2
+    
+  se (tem_filho_direito && pai < filho_direito):
+    indice_a_trocar = indice_atual * 2 + 1
+    
+  # Se o índice de troca não foi atualizado para um dos filhos, 
+  # quer dizer que o elemento já está no local certo e não há motivo para trocar.
+  seja deve_trocar = indice_a_trocar != indice_atual
+  
+  se (deve_trocar):
+    troca(heap, indice_atual, indice_a_trocar)
+    descer(heap, tamanho, indice_a_trocar)
+
+  retorne
 
 
 # Função que transforma um array qualquer em uma heap.
 heapify(array[], tamanho):
-  # Começa da metade da lista.
-  # O algoritmo 'descer' vai trocar de posição o elemento e seus filhos se necessário a cada    
-  # iteração, transformando a lista inteira em uma heap gradativamente. 
   # O loop inicia da metade da lista para dar mais
   # chances que o elemento tenha filhos.
   para (indice = tamanho / 2; indice > 1; indice--)
@@ -24,7 +56,8 @@ remover_raiz(heap[], tamanho):
   # Troca o primeiro com o último elemento de posição
   troca(heap, 1, tamanho)
 
-  # Desce o primeiro elemento, que anteriormente estava ao fim da lista, para sua posição apropriada.
+  # Desce o primeiro elemento, que anteriormente estava ao fim da lista, 
+  # para sua posição apropriada.
   descer(heap, 1)
 
 heapsort(heap[], tamanho): 
@@ -39,7 +72,7 @@ heapsort(heap[], tamanho):
   # entre a seção não-ordenada (que a princípio é todo o vetor)
   # e a ordenada (que começa não tendo elementos e vai expandindo-se gradativamente). 
   # Ao final do loop, toda a heap estará ordenada.
-  para (indice = tamanho; indice > 1; indice--):
+  para (seja indice = tamanho; indice > 1; indice--):
     remover_raiz(heap, indice)
     
   retorne

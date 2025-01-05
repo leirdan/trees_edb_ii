@@ -20,11 +20,11 @@ private:
     }
   }
 
-  void down(int index) override
+  void down(int actual_element) override
   {
-    int smaller_index = index;
-    int left_c = get_left_child(index);
-    int right_c = get_right_child(index);
+    int smaller_index = actual_element;
+    int left_c = get_left_child(actual_element);
+    int right_c = get_right_child(actual_element);
 
     // Checa se o filho da esquerda é menor que o pai
     if (left_c < size && heap[left_c].key < heap[smaller_index].key)
@@ -39,9 +39,9 @@ private:
     }
 
     // Garante que o índice foi alterado
-    if (smaller_index != index)
+    if (smaller_index != actual_element)
     {
-      swap(smaller_index, index);
+      swap(smaller_index, actual_element);
       down(smaller_index);
     }
   }
