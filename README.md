@@ -2,6 +2,17 @@
 
 ## Árvore AVL
 
+### Ambiente computacional
+
+- Computador: Genérico 
+- Processador: AMD Ryzen 5 7600X 6-Core Processor 
+- RAM: 16GB
+- Editor de Texto: Visual Studio Code
+- IDE: nenhuma
+- Sistema Operacional: Windows 11 Pro versão 24H2
+- Softwares: C++
+- Compiladores: GCC 13.1
+
 ## Árvore Heap
 
 ### Ambiente computacional

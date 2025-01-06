@@ -57,11 +57,9 @@ private:
         AVLnode* y = x->right;
         AVLnode* T2 = y->left;
 
-        // Perform rotation
         y->left = x;
         x->right = T2;
 
-        // Update heights
         x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
         y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
 
@@ -77,11 +75,9 @@ private:
         AVLnode* x = y->left;
         AVLnode* T2 = x->right;
 
-        // Perform rotation
         x->right = y;
         y->left = T2;
 
-        // Update heights
         y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
         x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
 
@@ -169,23 +165,19 @@ private:
         
         int balance = getBalance(root);
         
-        // Print the balance factor
         std::cout << "Inserindo: " << key << ", Nó: " << root->key
                 << ", Fator de Balanceamento: " << balance << "\n";
 
-        // Left-Left Case
         if (balance > 1 && key < root->left->key) {
             std::cout << "Realizando uma rotação à direita no nó " << root->key << "\n";
             return rightRotation(root);
         }
 
-        // Right-Right Case
         if (balance < -1 && key > root->right->key) {
             std::cout << "Realizando uma rotação à esquerda no nó" << root->key << "\n";
             return leftRotation(root);
         }
 
-        // Left-Right Case
         if (balance > 1 && key > root->left->key) {
             std::cout << "Realizando uma rotação à esquerda no filho esquerdo do nó " << root->key << "\n";
             root->left = leftRotation (root->left);
@@ -193,7 +185,6 @@ private:
             return rightRotation(root);
         }
 
-        // Right-Left Case
         if (balance < -1 && key < root->right->key) {
             std::cout << "Realizando uma rotação à direita no filho direito do nó " << root->key << "\n";
             root->right = rightRotation(root->right);
