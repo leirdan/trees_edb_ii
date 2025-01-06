@@ -39,7 +39,7 @@ public:
   Heap(int size, node *array)
   {
     this->size = size;
-    this->heap = array;
+    heapify(array);
   }
 
   virtual ~Heap() = default;
@@ -68,6 +68,11 @@ public:
   {
     return parentIndex * 2 + 2;
   }
+
+  /// @brief Altera a prioridade (valor) de um elemento e rearranja-o na heap.
+  /// @param element_priority Prioridade do elemento, usado para encontrá-lo na heap.
+  /// @param new_priority Nova prioridade do elemento.
+  virtual void change_priority(int element_priority, int new_priority) = 0;
 
   /// @brief Adiciona um elemento na heap.
   /// @param value A chave do novo elemento.

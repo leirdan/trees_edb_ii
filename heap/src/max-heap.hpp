@@ -51,6 +51,27 @@ public:
   MaxHeap(int size) : Heap(size) {};
 
   virtual ~MaxHeap() = default;
+
+  void change_priority(int element_priority, int new_priority) override
+  {
+    for (int i = 0; i < this->size; i++)
+    {
+      // Quando encontra o elemento procurado é encontrado, sua prioridade é atualizada.
+      // Se a nova prioridade for maior que a antiga, sobe o elemento na MaxHeap.
+      // Caso contrário, desce-o.
+      if (heap[i].key == element_priority)
+      {
+        heap[i].key = new_priority;
+
+        if (new_priority > element_priority)
+          up(i);
+        else
+          down(i);
+
+        break;
+      }
+    }
+  };
 };
 
 #endif // !MAX_HEAP_HPP

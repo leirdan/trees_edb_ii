@@ -50,5 +50,26 @@ public:
   MinHeap(int size) : Heap(size) {};
 
   virtual ~MinHeap() = default;
+
+  void change_priority(int element_priority, int new_priority) override
+  {
+    for (int i = 0; i < this->size; i++)
+    {
+      // Quando encontra o elemento procurado é encontrado, sua prioridade é atualizada.
+      // Se a antiga prioridade for maior que a nova, sobe o elemento na MinHeap.
+      // Caso contrário, desce-o.
+      if (heap[i].key == element_priority)
+      {
+        heap[i].key = new_priority;
+
+        if (new_priority > element_priority)
+          down(i);
+        else
+          up(i);
+
+        break;
+      }
+    }
+  };
 };
 #endif // !MIN_HEAP_CPP
