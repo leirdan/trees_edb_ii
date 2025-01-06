@@ -96,7 +96,10 @@ class Tree {
             Node *x;
             bool y_original_color = y->color;
 
-            if (z->left == nullptr) {
+            if (z->left == nullptr && z->right == nullptr) {
+                x = nullptr;
+                transplant(z, nullptr);
+            } else if (z->left == nullptr) {
                 x = z->right;
                 transplant(z, z->right);
             } else if (z->right == nullptr) {
