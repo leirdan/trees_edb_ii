@@ -1,0 +1,4 @@
+# red black tree files to ignore
+red_black_tree/build
+red_black_tree/Trabalho_Unidade_02.pdf
+.vscode/

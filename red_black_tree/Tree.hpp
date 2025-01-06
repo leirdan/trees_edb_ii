@@ -78,6 +78,7 @@ class Tree {
             }
 
             insert_fixup(newNode);
+            update_depth(root, 0);
         }
 
         /**
@@ -123,6 +124,7 @@ class Tree {
             if (y_original_color == false && x != nullptr) {
                 remove_fixup(x);
             }
+            update_depth(root, 0);
         }
 
         /**
@@ -152,7 +154,7 @@ class Tree {
     private:
 
         /**
-         * @brief Destruidir da árvore.
+         * @brief Destruidora da árvore.
          * @param x O nó a ser destruído.
          */
         void destroy_tree(Node *x){
