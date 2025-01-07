@@ -1,4 +1,16 @@
 # EDB II - 2ª Unidade
+## Árvore Binária
+
+### Ambiente computacional
+
+- Computador: Dell G3 3590 
+- Processador: Intel Core i5-9300H
+- RAM: 08GB
+- Editor de Texto: Visual Studio Code
+- IDE: nenhuma
+- Sistema Operacional: Windows 11 Pro versão 24H2
+- Softwares: C++
+- Compiladores: GCC 13.1
 
 ## Árvore AVL
 

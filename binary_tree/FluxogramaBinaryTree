@@ -1,0 +1,22 @@
+            INÍCIO
+               ↓
+    Lista de entrada fornecida?
+               ↓ NÃO
+         Forneça uma lista
+               ↓ SIM
+          Ordene a lista
+               ↓
+    Lista vazia ou apenas 1 elemento?
+       ↓ NÃO                ↓ SIM
+ Escolha o elemento    Crie o nó com o
+ do meio como raiz         elemento
+               ↓
+       Divida a lista
+     em esquerda e direita
+               ↓
+  Construa recursivamente
+  subárvores esquerda e direita
+               ↓
+         Conecte à raiz
+               ↓
+             FIM
