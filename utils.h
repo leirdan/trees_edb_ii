@@ -21,6 +21,17 @@ struct random_list
   }
 };
 
+node *convert_integer_to_nodes(int n, int list[])
+{
+  node *nodes = (node *)malloc(sizeof(node) * n);
+  for (int i = 0; i < n; i++)
+  {
+    nodes[i] = node(list[i]);
+  }
+
+  return nodes;
+}
+
 void generate_random_list(const std::string &filename, int size)
 {
   std::ofstream file(filename);
