@@ -1,4 +1,15 @@
 # EDB II - 2ª Unidade
+
+## Como compilar os arquivos
+
+Dentro de cada uma das pastas `avl_tree`, `binary_tree`, `heap` e `red_black_tree` estão contidas as implementações das árvores e outros documentos exigidos para cada tipo. Para compilar e utilizar a nossa implementação, primeiro é necessário que algum compilador C++ esteja instalado; recomendamos o GCC.
+
+Após instalá-lo, basta entrar no diretório da árvore escolhida, localizar o arquivo `main.cpp` - geralmente encontra-se logo após adentrar no diretório, com exceção em `heap`, que está dentro do diretório `src` - e compilá-lo com o comando
+
+```bash
+g++ main.cpp
+```
+
 ## Árvore Binária
 
 ### Ambiente computacional
@@ -38,6 +49,17 @@
 - Softwares: OverLeaf e C++
 - Compiladores: GCC 13.1
 
+### Compilar a análise
+
+Para compilar, você precisa ter o LaTex instalado no computador. 
+Dentro do diretório `heap`, basta inserir
+
+```bash
+pdflatex main.tex
+```
+
+e um arquivo `main.pdf` será gerado, contendo a análise das execuções do Heapsort, a comparação com outros algoritmos e outras informações.
+
 ## Árvore Rubro Negro
 
 ### Ambiente computacional
@@ -50,3 +72,12 @@
 - Sistema Operacional: Ubuntu 24.04.1 LTS
 - Softwares: C++
 - Compiladores: GCC 13.3
+
+## Lista de Atividades
+
+Aqui estão listadas as principais áreas do trabalho e quem predominantemente atuou nelas.
+
+- Árvore Binária: Victor
+- Árvore AVL: Paz
+- Árvore Rubro-Negra: Cauã
+- Heap: Andriel
