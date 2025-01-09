@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <queue>
 
 /**
  * @class Tree
@@ -394,20 +395,38 @@ class Tree {
          * @param level O nível do nó.
          */
         void print(Node *node, int level){
-            if (node != nullptr) {
-                if (node->right) {
-                    print(node->right, level + 4);
+            if (node == nullptr) return;
+
+            std::queue<std::pair<Node*, int>> q;
+            q.push({node, level});
+
+            bool firstNode = true;
+
+            while (!q.empty()) {
+                int currentLevel = q.front().second;
+                int levelSize = q.size();
+                std::vector<std::string> levelNodes;
+
+                for (int i = 0; i < levelSize; ++i) {
+                    Node* currentNode = q.front().first;
+                    q.pop();
+
+                    std::string nodeStr = std::to_string(currentNode->key) + (currentNode->color ? "R" : "B");
+                    levelNodes.push_back(nodeStr);
+
+                    if (currentNode->left) q.push({currentNode->left, currentLevel + 1});
+                    if (currentNode->right) q.push({currentNode->right, currentLevel + 1});
                 }
-                if (level) {
-                    std::cout << std::setw(level) << ' ';
-                }
-                if (node->right) std::cout << " /\n" << std::setw(level) << ' ';
-                std::cout << node->key << (node->color ? "R" : "B") << node->depth <<"\n ";
-                if (node->left) {
-                    std::cout << std::setw(level) << ' ' << " \\\n";
-                    print(node->left, level + 4);
+
+                for (const auto& nodeStr : levelNodes) {
+                    if (!firstNode) {
+                        std::cout << ", ";
+                    }
+                    std::cout << nodeStr;
+                    firstNode = false;
                 }
             }
+            std::cout << std::endl;
         }
         
 };
