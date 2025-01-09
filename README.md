@@ -1,5 +1,8 @@
 # EDB II - 2ª Unidade
 
+## Objetivo
+Projeto que guarda as implementações realizadas para o trabalho final da 2ª Unidade de EDB II. O projeto consiste na implementação das 4 principais árvores vistas até o momento: Árvore binária, Heap, Árvore AVL e Árvore Rubro-Negra. Os algoritmos foram implementados todos na linguagem C++ e estão todos documentados.
+
 ## Como compilar os arquivos
 
 Dentro de cada uma das pastas `avl_tree`, `binary_tree`, `heap` e `red_black_tree` estão contidas as implementações das árvores e outros documentos exigidos para cada tipo. Para compilar e utilizar a nossa implementação, primeiro é necessário que algum compilador C++ esteja instalado; recomendamos o GCC.
